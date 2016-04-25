@@ -1,0 +1,9 @@
+#define SYSMEM_MB 10000
+#define OPENMP 8
+#define CALCULATE_BETWEENESS 1
+#define RANDOM_SMALL_WORLD 1
+#define WATTS_STROGATZ 1
+#define SEED 1337
+#define NODES 50
+#define Z_SHORT_EDGES 4
+#define JUMP_FRACTION 0.2
