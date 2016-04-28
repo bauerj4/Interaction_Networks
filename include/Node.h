@@ -69,7 +69,7 @@ class Cosmic_Node
   double y;
   double z;
   double NFW_M;
-  double NFW_RVIR;
+  double NFW_SCALE;
   double NFW_C;
   std::vector<Cosmic_Node *> Neighbors;
 #ifdef CALCULATE_BETWEENESS
@@ -100,7 +100,7 @@ class Cosmic_Node
   double GetM(){return NFW_M;}
 
   // Get a
-  double GetRvir(){return NFW_RVIR;}
+  double GetA(){return NFW_SCALE;}
 
   // Get c
   double GetC(){return NFW_C;}

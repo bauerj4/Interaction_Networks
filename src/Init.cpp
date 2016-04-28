@@ -52,7 +52,7 @@ void globalfns::Cosmic_FindInteractions(Cosmic_Graph * graph)
 	{
 	  if (i != j)
 	    {
-#ifdef USE_KEPLER
+	      //#ifdef USE_KEPLER
 	      for (k=0; k < MyNeighbors.size(); k++)
 		{
 		  if (MyNeighbors[k]->ID() == nodelist[j]->ID())
@@ -60,7 +60,7 @@ void globalfns::Cosmic_FindInteractions(Cosmic_Graph * graph)
 		}  
 	      if (!AlreadyNeighbor)
 		{
-		  ThisPot = Cosmic_Kepler(graph, nodelist[i]->ID(), nodelist[j]->ID());
+		  ThisPot = Cosmic_Force(graph, nodelist[i]->ID(), nodelist[j]->ID());
 		  //		  std::cout << ThisPot << std::endl;
 		  
 #pragma omp critical
@@ -70,7 +70,7 @@ void globalfns::Cosmic_FindInteractions(Cosmic_Graph * graph)
 		      graph->AddEdge(nodelist[i]->ID(),nodelist[j]->ID());
 		    }
 		}
-#endif // USE_KEPLER
+	      //#endif // USE_KEPLER
 	      
 	      AlreadyNeighbor=false;
 	    }

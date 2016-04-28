@@ -112,7 +112,7 @@ Cosmic_Node::Cosmic_Node(int id, double X, double Y, double Z, double M, double 
   y = Y;
   z = Z;
   NFW_M = M;
-  NFW_RVIR = A;
+  NFW_SCALE = A;
   NFW_C = C;
 }
 

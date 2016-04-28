@@ -45,7 +45,7 @@ namespace globalfns
   */
 
 #ifdef COSMIC_WEB
-  double Cosmic_Kepler(Cosmic_Graph * graph, int NodeID_1, int NodeID_2);
+  double Cosmic_Force(Cosmic_Graph * graph, int NodeID_1, int NodeID_2);
   void Cosmic_FindInteractions(Cosmic_Graph * graph);
 #endif
 
