@@ -3,6 +3,16 @@ import numpy as np
 import matplotlib.pylab as plt
 import sys
 
+"""
+
+Plots SW colored by betweeness.  
+
+Usage:
+
+python <program_name> scale 1
+
+"""
+
 scaling_coeff = float(sys.argv[1])
 scaling_power = float(sys.argv[2])
 

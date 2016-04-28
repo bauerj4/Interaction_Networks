@@ -119,7 +119,7 @@ void globalfns::Cosmic_GenerateHalos(Cosmic_Graph * graph, char * filename)
 	  newY = 1.e3 * atof(tokens[9].c_str()); // kpc / h (comoving)
 	  newZ = 1.e3 * atof(tokens[10].c_str()); // kpc / h (comoving)
 	  newC = atof(tokens[7].c_str()) / atof(tokens[8].c_str()); // NFW concentration parameter
-	  newA = atof(tokens[8].c_str()); // NFW scale radius
+	  newA =  atof(tokens[8].c_str()); // NFW scale radius
 
 	  if (newM > MASS_FILTER)
 	    {

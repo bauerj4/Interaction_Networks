@@ -4,6 +4,16 @@ from mpl_toolkits.mplot3d import Axes3D
 import sys
 
 
+"""
+
+Calculates mass vs betweeness.  Betweeness
+for cosmic web is broken now.  
+
+Usage:
+python <program_name>
+
+"""
+
 #dt = np.dtype('d')
 dt = np.dtype(float)
 

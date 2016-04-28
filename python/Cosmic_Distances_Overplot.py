@@ -2,6 +2,18 @@ import numpy as np
 import matplotlib.pylab as plt
 import sys
 
+
+"""
+
+Cosmic distances distribution
+
+Usage:
+
+python <program_name> <file_list>
+
+"""
+
+
 dirs = sys.argv[1:]
 
 avg_x_vals = []

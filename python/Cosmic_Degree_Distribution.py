@@ -3,6 +3,16 @@ import matplotlib.pylab as plt
 from mpl_toolkits.mplot3d import Axes3D
 import sys
 
+"""
+
+Degree distribution
+
+Usage:
+python <program_name> <file_list>
+
+"""
+
+
 files = sys.argv[1:]
 dt1 = np.dtype('int32')
 dt2 = np.dtype(float)

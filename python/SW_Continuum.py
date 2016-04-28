@@ -2,6 +2,17 @@ import numpy as np
 import matplotlib.pylab as plt
 import sys
 
+"""
+
+plots domain.bin and range.bin for directories
+
+Usage:
+
+python <program_name> <directories>
+
+"""
+
+
 dt = np.dtype(float)
 files = sys.argv[1:]
 

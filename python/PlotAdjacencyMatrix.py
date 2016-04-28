@@ -2,6 +2,12 @@ import numpy as np
 import matplotlib.pylab as plt
 import sys
 
+"""
+
+Deprecated.  Do not use.
+
+"""
+
 NWRITERS = int(sys.argv[1])
 NODES = int(sys.argv[2])
 dt = np.dtype('i4')#np.dtype('>i4')

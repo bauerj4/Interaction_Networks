@@ -2,6 +2,14 @@ import numpy as np
 import matplotlib.pylab as plt
 import sys
 
+"""
+
+Usage:
+
+See SW_Continuum
+
+"""
+
 dt = np.dtype(float)
 files = sys.argv[1:]
 

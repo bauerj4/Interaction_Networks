@@ -8,6 +8,11 @@ int main(int argc, char ** argv)
 {
 
 #ifdef COSMIC_WEB
+
+  /*
+    Main loop for cosmic interaction network
+  */
+
   Cosmic_Graph * graph = new Cosmic_Graph();
   globalfns::Cosmic_Init(graph, argv[1]);
   globalfns::Cosmic_GetAllPaths(graph);
@@ -15,6 +20,10 @@ int main(int argc, char ** argv)
 
 
 #ifdef RANDOM_SMALL_WORLD
+  /*
+    Main loop for small world.
+  */
+
   SW_Graph * graph = new SW_Graph();
   std::cout << "Initializing SW Graph..." << std::endl;
   globalfns::SW_Init(graph);
@@ -31,7 +40,6 @@ int main(int argc, char ** argv)
 #ifdef RANDOM_SMALL_WORLD
   globalfns::SW_Finalize(graph);
 #endif
-
 
   return 0;
 }

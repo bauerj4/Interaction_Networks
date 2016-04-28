@@ -9,9 +9,9 @@
 double globalfns::Cosmic_Force(Cosmic_Graph * graph, int NodeID_1, int NodeID_2)
 {
   /*
-    Returns potential on Node 1 due to Node 2 assuming
+    Returns force on Node 1 due to Node 2 assuming
     (1) halos are spherical
-    (2) halos are non-overlapping
+    (2) We can always treat Node 2 as a point mass
   */
 
   double x1,x2;
@@ -19,7 +19,7 @@ double globalfns::Cosmic_Force(Cosmic_Graph * graph, int NodeID_1, int NodeID_2)
   double z1,z2;
   double r, r2;
   double m1,m2;
-  double potential;
+  double force;
 
 #ifdef USE_NFW
   double c1;
@@ -46,6 +46,8 @@ double globalfns::Cosmic_Force(Cosmic_Graph * graph, int NodeID_1, int NodeID_2)
 #ifdef USE_NFW
   c1 = Node1->GetC();
   a1 = Node1->GetA();  
+  a1 *= 1.e3;
+  //std::cout << "c1, a1 = " << c1 << "," << a1 << std::endl;
 #endif // USE_NFW
 
   r2 = (x1 - x2) * (x1 - x2);
@@ -56,20 +58,21 @@ double globalfns::Cosmic_Force(Cosmic_Graph * graph, int NodeID_1, int NodeID_2)
   r = sqrt(r2);
 
 
-  potential = 0.0;
+  force = 0.0;
 
 #ifdef USE_KEPLER
-  potential = -INTERNAL_G * m2 * m1 / r2;
+  force = -INTERNAL_G * m2 * m1 / r2;
 #endif
 
 #ifdef USE_NFW
   rho1 = m1 * 3. / (4. * M_PI) * (1./340.) * 1./(a1 * a1 * a1);
-  m1 = rho1 * 4. * M_PI * (a1 * a1 * a1) *(log((r + a1)/a1) - r/(r + a1));
-  potential = -INTERNAL_G * m2 * m1 / r2;
+  //std::cout << "rho1 = " << rho1 << std::endl;
+  m1 = rho1* 4. * 340. * M_PI * (a1 * a1 * a1) *(log((r + a1)/a1) - r/(r + a1));
+  force = -INTERNAL_G * m2 * m1 / r2;
   //std::cout << "M(r), pot = " << m1 << "," << potential << std::endl;
 #endif
 
-  return potential;
+  return force;
   
 }
 

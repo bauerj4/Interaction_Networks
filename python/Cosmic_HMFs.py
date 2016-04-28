@@ -4,6 +4,16 @@ import numpy as np
 import sys
 
 
+"""
+
+Halo mass functions from Rockstar output
+
+Usage:
+
+python <program_name> <rockstar_outputs>
+
+"""
+
 files = sys.argv[1:]
 f_vals = []
 x_vals = []

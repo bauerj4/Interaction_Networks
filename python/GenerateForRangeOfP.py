@@ -2,6 +2,18 @@ import sys
 import os
 import numpy as np
 import matplotlib.pylab as plt
+
+"""
+
+Generates SW continuum limit.  Modify Config.sh
+to be the first entry before using.
+
+Usage:
+
+python <program_name> Nodes Z
+
+"""
+
 # the range of logp
 logprng = np.linspace(-3.8,0,14)
 average_distances = []

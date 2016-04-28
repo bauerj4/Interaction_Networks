@@ -3,6 +3,15 @@ import os
 import numpy as np
 import matplotlib.pylab as plt
 # the range of logp
+
+"""
+
+Usage:
+
+See GenerateForRangeOfP.py
+
+"""
+
 logprng = np.linspace(-3.8,0,14)
 average_distances = []
 p_vals = []

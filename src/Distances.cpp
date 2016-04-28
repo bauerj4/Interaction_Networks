@@ -10,7 +10,7 @@
 
 #ifdef COSMIC_WEB
 
-void globalfns::Cosmic_GetAllPaths(Cosmic_Graph * graph)//, std::vector<int> &distances)  
+void globalfns::Cosmic_GetAllPaths(Cosmic_Graph * graph)
 {
   unsigned int i,j;
   int count;
@@ -22,7 +22,7 @@ void globalfns::Cosmic_GetAllPaths(Cosmic_Graph * graph)//, std::vector<int> &di
   fileout = fopen("OUTPUTS/cosmic_distances.bin","wb");
   count = graph->GetNodeCount();
   fwrite(&count, sizeof(int), 1, fileout);
-  //std::vector<int> distances(count, -1); 
+
 
   std::cout << "Getting distances and betweeness..." << std::endl;
 #ifdef OPENMP // Need to fix race condition for file writing  
@@ -30,7 +30,9 @@ void globalfns::Cosmic_GetAllPaths(Cosmic_Graph * graph)//, std::vector<int> &di
 #endif
   for (j=0; j < count; j++)
     {
-      //std::cout << "Getting distances to node " << j << std::endl;
+      /*
+	Get all paths
+      */
       std::vector<int> distances(count, -1);
       globalfns::Cosmic_PathLengthsFromNode(graph->GetNodes()[j], graph, distances);
 #ifdef OPENMP
@@ -38,7 +40,9 @@ void globalfns::Cosmic_GetAllPaths(Cosmic_Graph * graph)//, std::vector<int> &di
 #endif
       for ( i = 0; i < count; i++ )
         {
-          //std::cout << "Distances[" << i << "] = " << distances[i] << std::endl;
+	  /*
+	    Write and reset distances
+	  */
           fwrite(&distances[i], sizeof(int), 1, fileout);
           distances[i] = -1;
         }
@@ -49,7 +53,10 @@ void globalfns::Cosmic_GetAllPaths(Cosmic_Graph * graph)//, std::vector<int> &di
   for (i=0; i<count; i++)
     {
       betweeness_out = graph->GetNodes()[i]->GetBetweeness();
-      //std::cout << "Betweeness[" << i << "] = " << graph->GetNodes()[i]->GetBetweeness()<<std::endl;
+      
+      /*
+	Write betweenesses
+      */
       fwrite(&betweeness_out, sizeof(double), 1, fileout);
     }
   fclose(fileout);
@@ -82,19 +89,15 @@ void globalfns::Cosmic_PathLengthsFromNode(Cosmic_Node * node, Cosmic_Graph * gr
   distances[node->ID()]=0;
   CurrentShell.push_back(node);
 
-  //std::cout << "Shell initialized with size " << CurrentShell.size() << std::endl;
   while (CurrentShell.size() != 0)
     {
-      NextShell.clear(); // Empties vector                                                                            
-
+      NextShell.clear(); // Empties vector
       for (i=0; i < CurrentShell.size(); i++)
         {
-          //std::cout << i << std::endl;                                                                              
 #ifdef CALCULATE_BETWEENESS
           BetweenessShell.push_back(CurrentShell[i]);
 #endif
-          MyNeighbors = CurrentShell[i]->GetNeighbors();
-          //#pragma omp parallel for shared(MyNeighbors, CurrentShell, NextShell, level)                              
+          MyNeighbors = CurrentShell[i]->GetNeighbors();                  
           for (j=0; j < MyNeighbors.size(); j++)
             {
               if (distances[MyNeighbors[j]->ID()] == -1)
@@ -105,6 +108,9 @@ void globalfns::Cosmic_PathLengthsFromNode(Cosmic_Node * node, Cosmic_Graph * gr
 #ifdef CALCULATE_BETWEENESS
               if (distances[MyNeighbors[j]->ID()] == distances[CurrentShell[i]->ID()] + 1)
                 {
+		  /*
+		    Compute dependencies
+		  */
                   sigma[MyNeighbors[j]->ID()] += sigma[CurrentShell[i]->ID()];
                   Predecessors.push_back(CurrentShell[i]);
 		}
@@ -130,7 +136,9 @@ void globalfns::Cosmic_PathLengthsFromNode(Cosmic_Node * node, Cosmic_Graph * gr
 
       for (j=0; j < Predecessors.size(); j++)
         {
-          // The predecessor node is Brande's v  
+	  /*
+	    The predecessor node is Brande's v  
+	  */
           if (Predecessors[j]->ID() != ThisNode->ID() && Predecessors[j]->ID() != node->ID() && distances[Predecessors[j]->ID()] != -1)
             {
               sigma_ratio = ((double)sigma[Predecessors[j]->ID()] / (double)sigma[ThisNode->ID()] );
@@ -142,7 +150,7 @@ void globalfns::Cosmic_PathLengthsFromNode(Cosmic_Node * node, Cosmic_Graph * gr
 	    }
           else
             {
-              delta[Predecessors[j]->ID()] = 1;//sigma[Predecessors[j]->ID()];
+              delta[Predecessors[j]->ID()] = 1;
             }
 	}
       if (node->ID() != ThisNode->ID())
@@ -150,7 +158,7 @@ void globalfns::Cosmic_PathLengthsFromNode(Cosmic_Node * node, Cosmic_Graph * gr
           ThisNode->AddToBetweeness( delta[ThisNode->ID()]);
         }
 
-      i--;
+      i--; // pop back index
     }
 #endif
 
@@ -160,6 +168,7 @@ void globalfns::Cosmic_PathLengthsFromNode(Cosmic_Node * node, Cosmic_Graph * gr
 
 
 #ifdef RANDOM_SMALL_WORLD
+
 /*
   Do N BFS on the graph to get distance vectors and write them to hard disk
 */
@@ -190,7 +199,9 @@ void globalfns::SW_GetAllPaths(SW_Graph * graph)//, std::vector<int> &distances)
 #endif
       for ( i = 0; i < NODES; i++ )
         {
-	  //std::cout << "Distances[" << i << "] = " << distances[i] << std::endl;
+	  /*
+	    Write and update distances
+	  */
 	  fwrite(&distances[i], sizeof(int), 1, fileout);
           distances[i] = -1;
         }
@@ -201,7 +212,9 @@ void globalfns::SW_GetAllPaths(SW_Graph * graph)//, std::vector<int> &distances)
   for (i=0; i<NODES; i++)
     {
       betweeness_out = graph->GetNodes()[i]->GetBetweeness();
-      //std::cout << "Betweeness[" << i << "] = " << graph->GetNodes()[i]->GetBetweeness()<<std::endl;
+      /*
+	Write betweenesses
+      */
       fwrite(&betweeness_out, sizeof(double), 1, fileout);
     }
   fclose(fileout);
@@ -243,12 +256,10 @@ void globalfns::SW_PathLengthsFromNode(SW_Node * node, SW_Graph * graph, std::ve
       
       for (i=0; i < CurrentShell.size(); i++)
 	{
-	  //std::cout << i << std::endl;
 #ifdef CALCULATE_BETWEENESS
 	  BetweenessShell.push_back(CurrentShell[i]);
 #endif
 	  MyNeighbors = CurrentShell[i]->GetNeighbors();
-	  //#pragma omp parallel for shared(MyNeighbors, CurrentShell, NextShell, level)
 	  for (j=0; j < MyNeighbors.size(); j++)
 	    {
 	      if (distances[MyNeighbors[j]->ID()] == -1)
@@ -284,7 +295,9 @@ void globalfns::SW_PathLengthsFromNode(SW_Node * node, SW_Graph * graph, std::ve
 
       for (j=0; j < Predecessors.size(); j++)
 	{
-	  // The predecessor node is Brande's v
+	  /*
+	    The predecessor node is Brande's v
+	  */
 	  if (Predecessors[j]->ID() != ThisNode->ID() && Predecessors[j]->ID() != node->ID())
 	    {
 	      sigma_ratio = ((double)sigma[Predecessors[j]->ID()] / (double)sigma[ThisNode->ID()] );
