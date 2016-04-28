@@ -9,8 +9,8 @@ std::vector<int> globalfns::SerialUnifPair(int a, int b)
 {
   int v1 = -1;
   int v2 = -1;
-  std::default_random_engine generator;
-  std::uniform_int_distribution<int> distribution(a,b);
+  //std::default_random_engine generator;
+  //std::uniform_int_distribution<int> distribution(a,b);
   std::vector<int> vertex_pair;
 
 
