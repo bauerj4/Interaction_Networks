@@ -1,0 +1,41 @@
+This software is submitted in partial fulfillment of the requirements
+of PHYS 870 at Queen's University, Winter 2016.
+
+This code generates small world networks and computes galaxy interaction
+networks using either a Keplerian or NFW potential for a set of dark
+matter halos or galaxies.  Right now, only Rockstar halo finder output
+is supported, but we will generalize this to have a unique binary file
+format in the future if research is done on real data sets.  This code
+uses OpenMP for shared-memory parallelism.  
+
+To use the Small World Network (SWN) features, you must comment out all
+cosmological interaction network options in Config.sh.  We support the geometry 
+described in Sethna's text or the geometry described by Watts and Strogatz.
+Comment out the one you are not using in Config.sh.  There is currently
+a bug in the Watts and Strogatz geometry at high values of JUMP_FRACTION,
+so please use the Sethna geometry for calculations which should produce
+meaningful calculations.  Z_SHORT_EDGES defines the number of nearest 
+neighbors to draw short edges to, and NODES defines the network size.  
+The networks are random, so we specify a seed that is used to seed the
+standard library's rand() function.  The network sizes are sufficiently
+small compared to the periodicity, and the networks are constructed in 
+serial, so this should be sufficient.  Various plotting scripts are provided,
+but you can look at how the binary files are written in Finalize.cpp if you
+want to use your own software.  There's nothing special here; most files
+are just binary blocks of a single data type.  All options must be specified
+at compile time, and compiled on a 64 bit Linux machine with the provided 
+Makefile.  To use on HPCVL's Linux cluster, we recommend using the Intel
+compilers which may be imported into the user environment.  
+
+You may run the cosmic interaction code on the 9 provided data sets by 
+specifying the redshifts (_19 -> 3.0, _46 -> 1.0, _103 -> 0.0) and 
+setting a THRESHOLD_POTENTIAL (see code description in report).  Make 
+sure to comment out all SWN-specific options in Config.sh!  To run the
+code, you must additionally pass the path of the data set as a command
+line argument.  Proper usage is then,
+
+./SW_Network <PATH_TO_DATA>
+
+Again, you may use the provided plotting software or use your own.  The
+binary outputs are all single-type blocks, and NumPy's fromfile() function
+should open them without issue.
