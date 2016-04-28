@@ -24,8 +24,8 @@ but you can look at how the binary files are written in Finalize.cpp if you
 want to use your own software.  There's nothing special here; most files
 are just binary blocks of a single data type.  All options must be specified
 at compile time, and compiled on a 64 bit Linux machine with the provided 
-Makefile.  To use on HPCVL's Linux cluster, we recommend using the Intel
-compilers which may be imported into the user environment.  
+Makefile.  To use on HPCVL's Linux cluster, you must change the standard
+to c++0x and ensure that OUTPUTS and bin directories exist.  
 
 You may run the cosmic interaction code on the 9 provided data sets by 
 specifying the redshifts (_19 -> 3.0, _46 -> 1.0, _103 -> 0.0) and 
